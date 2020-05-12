@@ -35,9 +35,8 @@
 
  -->
  <?php
-require_once("Validator.php");
-require_once("Rectangle.php");
-
+    require_once("validation.php");
+    require_once("rectangleController.php");
 $errors=[];
 $resultat=[];
 $longueur="";
@@ -54,33 +53,37 @@ $largeur="";
     if( isset($_POST['btn_submit'])){
 
         if($_POST['btn_submit']==="calcul"){
-
-        $validator=new Validator();
-
         $longueur=$_POST['longueur'];
         $largeur=$_POST['largeur'];
+         $result=is_empty($longueur);
+         if($result!==true){
+            $errors['longueur']= $result;
 
-          $validator->is_empty($longueur,'longueur');
-          $validator->is_empty($largeur,'largeur');
-         
-         if($validator->is_valid()){
-            $validator->compare($longueur,$largeur,'longueur','largeur');
-            if($validator->is_valid()){
-                    /* 
-                     $rectangle=new Rectangle();
-                     $rectangle->setLongueur($longueur);
-                     $rectangle->setLargeur($largeur);
-                     */   
-                      $rectangle=new Rectangle($longueur,$largeur);
+         }
+
+         $result=is_empty($largeur);
+         if($result!==true){
+            $errors['largeur']= $result;
+
+         }
+         if(count($errors)===0){
+            $result=compare( $longueur,$largeur);
+            if( $result===true){
+                      $resultat["demi_perimetre"]=demi_perimetre($longueur,$largeur);
+                      $resultat["perimetre"]=perimetre($longueur,$largeur);
+                      $resultat["surface"]=surface($longueur,$largeur);
+                      $resultat["diagonale"]=diagonale($longueur,$largeur);
                       $id= $_SESSION['id'];
                       $id++;
-                      $_SESSION["Resultat".$id]=$rectangle;
-                    
+                      $_SESSION["Resultat".$id]=$resultat;
                       $_SESSION['id']=$id;
 
+
+
+            }else{
+                $errors=$result;
             }
          }
-         $errors=$validator->getErrors();
 
             if(isset($errors['longueur'])){
                 $longueur="";
@@ -107,18 +110,15 @@ $largeur="";
 
     <!-- Bootstrap CSS -->
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
-    <!-- Locale CSS -->
-    <link rel="stylesheet" href="http://127.0.0.1/framework/bootstrap.min.css">
   </head>
   <body>
-
 
          <div class="container mt-5">
 
          <?php if(isset($errors['all'])){
              $largeur="";
              $longueur="";
-             
+
          ?>
          <div class="alert alert-danger col-4">
              <strong>Erreur</strong> <?php echo $errors['all'];?>
@@ -172,10 +172,10 @@ $largeur="";
              </form>
          </div>
 <?php
-      if( $_SESSION['id']!==0 && $_POST['btn_submit']!=="reinitialisation"/*isset($_POST['btn_submit']) && $_POST['btn_submit']==="calcul" && count($errors)===0*/) {
+      if( isset($_POST['btn_submit']) && $_POST['btn_submit']==="calcul" && count($errors)===0) {
 ?>
-        <table class="table container table-bordered table-striped">
-            <thead class="thead-dark">
+        <table class="table container table-bordered">
+            <thead>
                 <tr>
                     <th>Demi-Perimetre</th>
                     <th>Preimetre</th>
@@ -185,18 +185,17 @@ $largeur="";
             </thead>
             <tbody>
             <?php
-                foreach ($_SESSION as $key=> $rectangle) {
-                    if($key!=="id")  {
+                foreach ($_SESSION as  $resultat) {
+
             ?>
                 <tr>
-                    <td scope="row"><?=$rectangle->demiPerimetre()?></td>
-                    <td><?=$rectangle->perimetre()?></td>
-                    <td><?=$rectangle->surface()?></td>
-                    <td><?=$rectangle->diagonale()?></td>
+                    <td scope="row"><?=$resultat["demi_perimetre"]?></td>
+                    <td><?=$resultat["perimetre"]?></td>
+                    <td><?=$resultat["surface"]?></td>
+                    <td><?=$resultat["diagonale"]?></td>
                 </tr>
 
                 <?php
-                }
                 }
                 ?>
 

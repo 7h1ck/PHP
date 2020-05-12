@@ -7,7 +7,7 @@
             //Portéé
                //private => acces limité a la Classe
                //public => acces illimité
-               //protected => acces limité aux classes meres et classe Fille
+               //protected => 
    //Surchage de methode=>une methode qui différente maniere d'utilisation
     /*  
       function is_empty($nbre,$sms=null){
@@ -61,12 +61,6 @@
                    //metiers=>UC
 
 
-//Application
-  //Heritage=> & HEURE
-  //BD   => 2heure
-  //Projet
 
-  //MVC=>
-  //Projet
 
 ?>

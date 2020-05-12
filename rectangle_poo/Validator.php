@@ -59,14 +59,34 @@ public function  is_empty($nbre,$key,$sms=null){
         }
     }
 //Expressions Régulières
-    public function  is_email($valeur,$key,$sms=null){
-    
+public function  is_email($valeur,$key,$sms=null)
+{
+    if(!preg_match("#^[a-z0-9_.-]+@[a-z0-9_.-]{2,}\.[a-z]{2,4}$#",$valeur))
+    {
+        if($sms==null)
+        {
+            $sms="L'email n'est pas valide";
+        }
+
+        $this->errors[$key]= $sms;
     }
 
-    //9chiffres , commence par 77,78,75,76,70
-    public function  is_telephone($valeur,$key,$sms=null){
-    
+}
+
+//9chiffres , commence par 77,78,75,76,70
+public function  is_telephone($valeur,$key,$sms=null)
+{
+    if (!preg_match("#^7[5-80][ .-]?[0-9]{3}([ .-]?[0-9]{2}){2}$#",$valeur))
+    {
+        if($sms==null)
+        {
+            $sms="Le numéro n'est pas valide";
+        }
+
+        $this->errors[$key]= $sms;
     }
+
+}
 
 
 
