@@ -18,7 +18,8 @@ class RectangleManager extends MysqlBd{
         
     }
     public function delete($id){
-        $sql="delete rectangle    ......";
+        $sql="delete from rectangle where id = $id";
+        return $this->ExecuteUpdate($sql)!=0;
     }
 
     public function findAll(){

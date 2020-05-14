@@ -16,7 +16,8 @@ class CarreManager extends MysqlBd{
         
     }
     public function delete($id){
-        
+        $sql="delete from carre where id = $id";
+        return $this->ExecuteUpdate($sql)!=0;
     }
 
     public function findAll(){

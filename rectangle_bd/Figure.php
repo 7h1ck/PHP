@@ -14,6 +14,10 @@
        public function getLongueur(){
         return $this->longueur;
        }
+
+       public function getId(){
+        return $this->id;
+       }
   
    //setters  methodes instances concretes
   

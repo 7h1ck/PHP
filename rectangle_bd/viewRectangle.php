@@ -171,7 +171,7 @@
                     <td><?=$rectangle->diagonale()?></td>
                     <td>
                     <a name="" id="" class="btn btn-success" href="#" role="button">Edit</a>
-                    <a name="" id="" class="btn btn-danger" href="#" role="button">Delete</a>
+                    <a name="" id="" class="btn btn-danger" href="index.php?id=<?=$rectangle->getId() ?>" role="button" data-toggle="modal" data-target="#myModal">Delete</a>
                     </td>
                 </tr>
 
@@ -186,3 +186,37 @@
     <?php
        }
  ?>
+<?php
+    if(isset($_GET['id'])){
+        ?>
+
+<div class="modal fade" id="myModal">
+    <div class="modal-dialog modal-sm">
+      <div class="modal-content">
+      
+        <!-- Modal Header -->
+        <div class="modal-header">
+          <h4 class="modal-title">Alert</h4>
+          <button type="button" class="close" data-dismiss="modal">&times;</button>
+        </div>
+        
+        <!-- Modal body -->
+        <div class="modal-body">
+          Voulez-vous supprimer ?
+        </div>
+        
+        <!-- Modal footer -->
+        <div class="modal-footer">
+          <a id="" class="btn btn-success" href="index.php?ok=1" role="button" data-dismiss="modal">Oui</a>
+          <button type="button" class="btn btn-secondary" data-dismiss="modal">Annuler</button>
+        </div>
+
+<?php   
+    if (isset($_GET['ok'])) {
+        $id=$_GET['id'];
+        $entityManager->delete($id);
+
+        
+    }
+    }
+?>
